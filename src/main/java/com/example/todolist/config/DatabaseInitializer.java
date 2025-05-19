@@ -5,7 +5,10 @@ import com.example.todolist.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.auditing.CurrentDateTimeProvider;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.time.LocalDateTime;
 
 @Configuration
 public class DatabaseInitializer {

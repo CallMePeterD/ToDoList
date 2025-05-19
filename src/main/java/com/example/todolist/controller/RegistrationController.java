@@ -1,20 +1,18 @@
 // src/main/java/com/example/todolist/controller/RegistrationController.java
 package com.example.todolist.controller;
 
-import com.example.todolist.model.User;
-import com.example.todolist.repository.UserRepository;
 import com.example.todolist.repository.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.transaction.annotation.Transactional;
+
+import com.example.todolist.model.User;
+import com.example.todolist.repository.UserRepository;
 
 @Controller
 @RequestMapping("/auth")
@@ -36,27 +34,27 @@ public class RegistrationController {
     }
 
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user,
+    public String registerUser(@Valid User user,
                                BindingResult result,
                                RedirectAttributes redirectAttributes) {
 
-        // Validação simples
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
-            result.rejectValue("username", "error.user", "Usuário já existe");
+            result.rejectValue("username", "error.user", "Nome de usuário já existe.");
+        }
+
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            result.rejectValue("email", "error.user", "Email já cadastrado.");
         }
 
         if (result.hasErrors()) {
             return "auth/register";
         }
 
-        // Codifica a senha
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        // Salva e exibe log
-        User savedUser = userRepository.save(user);
-        System.out.println("Usuário salvo com ID: " + savedUser.getId());
+        userRepository.save(user);
 
         redirectAttributes.addFlashAttribute("success", "Registro realizado com sucesso!");
         return "redirect:/login";
     }
+
 }

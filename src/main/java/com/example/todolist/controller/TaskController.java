@@ -1,8 +1,11 @@
 package com.example.todolist.controller;
 
 import com.example.todolist.model.Task;
+import com.example.todolist.model.User;
 import com.example.todolist.repository.TaskRepository;
+import com.example.todolist.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +20,18 @@ import java.util.ArrayList;
 public class TaskController {
     @Autowired
     private TaskRepository taskRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping
-    public String listTasks(Model model) {
-        model.addAttribute("tasks", taskRepository.findAll());
+    public String listTasks(Model model, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        List<Task> tasks = taskRepository.findByUserUsername(user.getUsername());
+        model.addAttribute("tasks", tasks);
         return "tasks/list";
     }
+
 
     @GetMapping("/new")
     public String showTaskForm(Model model) {
@@ -30,8 +39,12 @@ public class TaskController {
         return "tasks/form";
     }
 
+
     @PostMapping("/save")
-    public String saveTask(@ModelAttribute Task task) {
+    public String saveTask(@ModelAttribute Task task, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        task.setUser(user); // Associa a tarefa ao usuário
         taskRepository.save(task);
         return "redirect:/tasks";
     }

@@ -26,7 +26,7 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @GetMapping("/profile")
+    @GetMapping
     public String showProfile(Model model, Authentication authentication) {
         String username = authentication.getName();
 
@@ -34,7 +34,7 @@ public class UserController {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 
         model.addAttribute("user", user);
-        return "profile";
+        return "tasks/profile";
     }
 
     @GetMapping("/register")

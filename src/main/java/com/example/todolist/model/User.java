@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Entity
 @Table(name = "users") // Nome de tabela padrão que o Spring reconhece
@@ -27,6 +27,11 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private boolean enabled = true;
+
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Task> tasks = new ArrayList<>();
+
 
     public Long getId() {
         return id;
@@ -76,5 +81,13 @@ public class User implements UserDetails {
     @Override public boolean isAccountNonLocked() { return true; }
     @Override public boolean isCredentialsNonExpired() { return true; }
     @Override public boolean isEnabled() { return this.enabled; }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
 
 }
