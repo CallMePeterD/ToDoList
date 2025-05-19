@@ -1,0 +1,15 @@
+2025-04-27 19:28:07.804647-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]TASK"; expected "TRUNCATE"; SQL statement:
+TASK [42001-232]
+2025-04-27 19:28:12.954098-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]TASK APP_USERS APP_USERS"; expected "TRUNCATE"; SQL statement:
+TASK APP_USERS APP_USERS [42001-232]
+2025-04-27 19:29:51.587910-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found; SQL statement:
+SELECT * FROM users [42102-232]
+2025-04-27 19:30:56.473366-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found; SQL statement:
+SELECT * FROM users [42102-232]
+2025-04-27 19:30:56.475364-03:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]APP_USERS"; expected "ALTER, ANALYZE"; SQL statement:
+APP_USERS [42001-232]

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${task.id} ? 'Editar Tarefa' : 'Nova Tarefa'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .form-title {
+            color: #0d6efd;
+        }
+    </style>
+</head>
+<body>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-container p-4">
+                <!-- Cabeçalho do Formulário -->
+                <div class="text-center mb-4">
+                    <h2 class="form-title">
+                        <i class="fas" th:class="${task.id} ? 'fa-edit' : 'fa-plus-circle'"></i>
+                        <span th:text="${task.id} ? 'Editar Tarefa' : 'Nova Tarefa'"></span>
+                    </h2>
+                </div>
+
+                <!-- Formulário -->
+                <form th:action="@{/tasks/save}" th:object="${task}" method="post">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Descrição</label>
+                        <input type="text" class="form-control form-control-lg"
+                               th:field="*{description}"
+                               placeholder="O que precisa ser feito?" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Data de Vencimento</label>
+                        <input type="date" class="form-control" th:field="*{dueDate}">
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a th:href="@{/tasks}" class="btn btn-outline-secondary me-md-2">
+                            <i class="fas fa-times me-1"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save me-1"></i> Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
